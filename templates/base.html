@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}備品管理システム{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav style="display:flex; align-items:center; gap:1em;">
+            <a href="{% url 'inventory:list' %}">備品一覧</a>
+            <a href="{% url 'inventory:create' %}">備品登録</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'permissions:logout' %}">ログアウト</a>
+            {% else %}
+                <a href="{% url 'permissions:signup' %}">サインアップ</a>
+                <a href="{% url 'permissions:login' %}">ログイン</a>
+            {% endif %}
+            <form action="{% url 'search:result' %}" method="get" style="margin-left:auto; display:flex; align-items:center;">
+                <input type="text" name="q" placeholder="検索..." value="{{ request.GET.q|default:'' }}">
+                <button type="submit">検索</button>
+            </form>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

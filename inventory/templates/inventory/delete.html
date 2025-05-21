@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}備品削除{% endblock %}
+{% block content %}
+<h1>{{ item.name }}を削除しますか？</h1>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">{{ item.name }}の削除</button>
+</form>
+<a href="{% url 'inventory:detail' item.id %}">キャンセル</a>
+{% endblock %}

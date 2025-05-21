@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}アーカイブ一覧{% endblock %}
+{% block content %}
+<h1>アーカイブ備品一覧</h1>
+<ul>
+    {% for archive in archived_supplies %}
+        <li>
+            {{ archive.item.name }}<br>
+            非表示理由: {{ archive.archive_reason }}<br>
+            <form action="{% url 'archive:restore' archive.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">復元</button>
+            </form>
+        </li>
+    {% empty %}
+        <li>アーカイブされた備品はありません。</li>
+    {% endfor %}
+</ul>
+{% endblock %}

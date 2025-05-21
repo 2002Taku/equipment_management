@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}貸出状況{% endblock %}
+{% block content %}
+<h1>{{ item.name }}の貸出状況</h1>
+<table border="1">
+    <tr>
+        <th>氏名</th>
+        <th>所属部署</th>
+        <th>返却予定日</th>
+    </tr>
+    {% for lend in lendings %}
+    <tr {% if lend.is_due_soon_flag %}style="background-color:#faa;"{% endif %}>
+        <td>{{ lend.user_name }}</td>
+        <td>{{ lend.user_department }}</td>
+        <td>{{ lend.return_due_date }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="3">貸出中の社員はいません。</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}
