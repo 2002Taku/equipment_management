@@ -17,7 +17,7 @@
             <div class="header-center">
                 <form action="{% url 'search:result' %}" method="get" class="header-search">
                     <input type="text" name="q" placeholder="検索..." value="{{ request.GET.q|default:'' }}">
-                    <button type="submit">検索</button>
+                    {% comment %} <button type="submit">検索</button> {% endcomment %}
                 </form>
             </div>
             <div class="header-right">

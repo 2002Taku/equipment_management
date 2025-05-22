@@ -18,14 +18,14 @@
             {% if item.image %}
                 <img src="{{ item.image.url }}" alt="{{ item.name }}" width="60">
             {% endif %}
-            <a href="{% url 'inventory:detail' item.id %}">{{ item.name }}</a>
-            <span>{{ item.description|truncatechars:50 }}</span>
+            <a href="{% url 'supplies:detail' item.id %}">{{ item.name }}</a>
+            {% comment %} <span>{{ item.description|truncatechars:50 }}</span> {% endcomment %}
             <span>在庫数: {{ item.stock }}</span>
-            <span>タグ: 
+            {% comment %} <span>タグ: 
                 {% for tag in item.tags.all %}
                     {{ tag.name }}{% if not forloop.last %}, {% endif %}
                 {% endfor %}
-            </span>
+            </span> {% endcomment %}
         </li>
     {% empty %}
         <li>該当する備品がありません。</li>

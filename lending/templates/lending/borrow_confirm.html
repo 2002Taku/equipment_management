@@ -6,5 +6,5 @@
     {% csrf_token %}
     <button type="submit">借りる</button>
 </form>
-<a href="{% url 'inventory:detail' item.id %}">キャンセル</a>
+<a href="{% url 'supplies:detail' item.id %}">キャンセル</a>
 {% endblock %}

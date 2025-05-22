@@ -3,6 +3,7 @@ from .models import Lending
 from supplies.models import Equipment, Item
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.contrib import messages
 from datetime import timedelta, date
 
 def lending_list(request):
@@ -51,7 +52,14 @@ def lending_status(request, item_id):
 @login_required
 def lending_borrow(request, item_id):
     item = get_object_or_404(Item, id=item_id)
+    # 1ユーザ1備品1回までの貸出制限
+    already_borrowed = Lending.objects.filter(item=item, user=request.user).exists()
+    if already_borrowed:
+        messages.error(request, "すでに貸出済みです")
+        return redirect('supplies:detail', item_id=item.id)
+
     if item.stock <= 0:
+        messages.error(request, "在庫がありません")
         return redirect('lending:status', item_id=item.id)
     if request.method == 'POST':
         Lending.objects.create(
@@ -64,6 +72,7 @@ def lending_borrow(request, item_id):
         )
         item.stock -= 1
         item.save()
+        messages.success(request, "貸出申請が完了しました")
         return redirect('lending:status', item_id=item.id)
     return render(request, 'lending/borrow_confirm.html', {'item': item})
 

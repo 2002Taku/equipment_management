@@ -1,11 +1,32 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.signals import post_migrate
+from django.dispatch import receiver
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name="カテゴリ名")
 
     def __str__(self):
         return self.name
+
+# カテゴリ初期データを自動登録
+@receiver(post_migrate)
+def create_initial_categories(sender, **kwargs):
+    if sender.name == "supplies":
+        initial_categories = [
+            "文房具類",         # 例：ボールペン、ホッチキス、ノート、付箋、テープ、はさみ
+            "事務機器",         # 例：プリンター、コピー機、シュレッダー、FAX、プロジェクター
+            "家具類",           # 例：デスク、チェア、キャビネット、書庫、ロッカー
+            "パソコン・周辺機器", # 例：ノートPC、デスクトップPC、モニター、マウス、キーボード、ルーター
+            "通信機器",         # 例：電話機、ビジネスフォン、無線LAN機器
+            "清掃・衛生用品",   # 例：掃除機、モップ、消毒液、ゴミ箱、ティッシュ、トイレットペーパー
+            "飲食関連用品",     # 例：電気ポット、冷蔵庫、紙コップ、食器、コーヒーメーカー
+            "防災用品",         # 例：消火器、非常食、懐中電灯、救急箱、ヘルメット
+            "名札・識別用品",   # 例：名札ケース、社員証ホルダー、腕章
+            "会議・プレゼン用品" # 例：ホワイトボード、マーカー、プロジェクタースクリーン、レーザーポインター
+        ]
+        for name in initial_categories:
+            Category.objects.get_or_create(name=name)
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name="タグ名")

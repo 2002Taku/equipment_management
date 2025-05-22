@@ -2,15 +2,64 @@
 {% block title %}備品詳細{% endblock %}
 {% block content %}
 <h1>{{ item.name }}</h1>
-{% if item.image %}
-    <img src="{{ item.image.url }}" alt="{{ item.name }}" width="200">
-{% endif %}
+<div class="item-detail-flex">
+    {% if item.image %}
+        <img src="{{ item.image.url }}" alt="{{ item.name }}" width="200" class="item-image">
+    {% endif %}
+    <div class="item-graph-area">
+        <h3>評価点ごとのレビュー件数</h3>
+        <canvas id="ratingChart" width="200" height="160"></canvas>
+    </div>
+</div>
 <p>{{ item.description }}</p>
 <p>カテゴリ: {{ item.category }}</p>
-<p>在庫数: {{ item.stock }}</p>
-<a href="{% url 'review:list' item.id %}">レビューを見る</a>
+
+<a href="{% url 'supplies:review_create' item.id %}">レビューを書く</a>
 <a href="{% url 'supplies:edit' item.id %}">編集</a>
 <a href="{% url 'archive:hide' item.id %}">非表示</a>
 <a href="{% url 'lending:borrow' item.id %}">借りる</a>
 <a href="{% url 'lending:return' item.id %}">返却</a>
+
+<p>【総レビュー数: {{ reviews.count }}】</p>
+<!-- レビューの羅列 -->
+<ul>
+    {% for review in reviews %}
+        <li>★{{ review.rating }} {{ review.comment }} ({{ review.user }})</li>
+    {% empty %}
+        <li>レビューがありません。</li>
+    {% endfor %}
+</ul>
+
+{% if messages %}
+  {% for message in messages %}
+    <div>{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+<!-- Chart.js 横棒グラフ描画 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('ratingChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['★1', '★2', '★3', '★4', '★5'],
+            datasets: [{
+                label: 'レビュー件数',
+                data: {{ rating_counts|safe }},
+                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    precision: 0,
+                    max: 10
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}

@@ -4,12 +4,20 @@
 <h1>備品一覧</h1>
 <div style="display:flex;">
     <div style="flex:3;">
-        {% for item in supplies %}
+        {% for item in items %}
             <div style="border:1px solid #ccc; margin:10px; padding:10px;">
                 {% if item.image %}
                     <img src="{{ item.image.url }}" alt="{{ item.name }}" width="100">
                 {% endif %}
                 <h2>{{ item.name }}</h2>
+                <p>
+                    平均評価:
+                    {% if item.avg_rating %}
+                        ★{{ item.avg_rating|floatformat:1 }}
+                    {% else %}
+                        －
+                    {% endif %}
+                </p>
                 <p>{{ item.description }}</p>
                 <a href="{% url 'supplies:detail' item.id %}">詳細</a>
                 <p>在庫数: {{ item.stock }}</p>

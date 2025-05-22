@@ -6,7 +6,9 @@ from .models import Item, Category, Tag, Review
 from .forms import ItemForm, ReviewForm
 
 def item_list(request):
-    items = Item.objects.filter(is_active=True)
+    items = Item.objects.filter(is_active=True).annotate(
+        avg_rating=Avg('reviews__rating')
+    )
     categories = Category.objects.all()
     tags = Tag.objects.all()
     # 高評価TOP3
@@ -27,10 +29,13 @@ def item_detail(request, item_id):
     item = get_object_or_404(Item, id=item_id)
     reviews = item.reviews.all()
     avg_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+    # ★1〜★5の件数リストを作成
+    rating_counts = [reviews.filter(rating=i).count() for i in range(1, 6)]
     context = {
         'item': item,
         'reviews': reviews,
         'avg_rating': avg_rating,
+        'rating_counts': rating_counts,  # ← 追加
     }
     return render(request, 'supplies/detail.html', context)
 
@@ -86,7 +91,7 @@ def review_create(request, item_id):
             review.item = item
             review.user = request.user
             review.save()
-            return redirect('supplies:review_list', item_id=item.id)
+            return redirect('supplies:detail', item_id=item.id)
     else:
         form = ReviewForm()
     return render(request, 'supplies/review_create.html', {'form': form, 'item': item})
@@ -95,4 +100,4 @@ class ReviewDeleteView(View):
     def post(self, request, pk):
         review = Review.objects.get(pk=pk)
         review.delete()
-        return redirect('supplies:review_list', item_id=review.item.id)
+        return redirect('supplies:detail', item_id=review.item.id)
