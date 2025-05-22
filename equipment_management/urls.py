@@ -5,13 +5,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('inventory/', include('inventory.urls', namespace='inventory')),
+    path('supplies/', include('supplies.urls', namespace='supplies')),
     path('archive/', include('archive.urls', namespace='archive')),
     path('lending/', include('lending.urls', namespace='lending')),
-    path('permissions/', include('permissions.urls', namespace='permissions')),
-    path('review/', include('review.urls', namespace='review')),
+    path('accounts/', include('accounts.urls', namespace='accounts')),  # permissions→accounts
+    # path('review/', include('review.urls', namespace='review')),  # reviewアプリ削除のためコメントアウトまたは削除
     path('search/', include('search.urls', namespace='search')),
-    path('', include('inventory.urls', namespace='inventory')),  # ルートは備品一覧
+    path('', include('supplies.urls')),
 ]
 
 if settings.DEBUG:

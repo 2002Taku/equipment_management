@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import ArchiveItem
 from .forms import ArchiveReasonForm
-from inventory.models import Item
+from supplies.models import Item
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 

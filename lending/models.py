@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from inventory.models import Item
+from supplies.models import Item
 from datetime import timedelta, date
 
 class Lending(models.Model):

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from inventory.models import Item, Category
+from supplies.models import Item, Category
 
 def search_result(request):
     q = request.GET.get('q', '')

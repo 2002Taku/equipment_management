@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}備品検索結果{% endblock %}
+{% block content %}
+<h1>検索結果</h1>
+<form action="{% url 'supplies:search' %}" method="get">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="キーワード">
+    <select name="category">
+        <option value="">カテゴリ選択</option>
+        {% for cat in categories %}
+            <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">検索</button>
+</form>
+<ul>
+    {% for item in results %}
+        <li>
+            {% if item.image %}
+                <img src="{{ item.image.url }}" alt="{{ item.name }}" width="60">
+            {% endif %}
+            <a href="{% url 'supplies:detail' item.id %}">{{ item.name }}</a>
+            <span>{{ item.description|truncatechars:50 }}</span>
+            <span>在庫数: {{ item.stock }}</span>
+            <span>タグ: 
+                {% for tag in item.tags.all %}
+                    {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </span>
+        </li>
+    {% empty %}
+        <li>該当する備品がありません。</li>
+    {% endfor %}
+</ul>
+{% endblock %}

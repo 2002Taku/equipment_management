@@ -8,19 +8,29 @@
 </head>
 <body>
     <header>
-        <nav style="display:flex; align-items:center; gap:1em;">
-            <a href="{% url 'inventory:list' %}">備品一覧</a>
-            <a href="{% url 'inventory:create' %}">備品登録</a>
-            {% if user.is_authenticated %}
-                <a href="{% url 'permissions:logout' %}">ログアウト</a>
-            {% else %}
-                <a href="{% url 'permissions:signup' %}">サインアップ</a>
-                <a href="{% url 'permissions:login' %}">ログイン</a>
-            {% endif %}
-            <form action="{% url 'search:result' %}" method="get" style="margin-left:auto; display:flex; align-items:center;">
-                <input type="text" name="q" placeholder="検索..." value="{{ request.GET.q|default:'' }}">
-                <button type="submit">検索</button>
-            </form>
+        <nav class="header-nav">
+            <div class="header-left">
+                <a href="{% url 'supplies:list' %}">備品一覧</a>
+                <a href="{% url 'supplies:create' %}">備品登録</a>
+                <a href="{% url 'archive:list' %}">アーカイブ</a>
+            </div>
+            <div class="header-center">
+                <form action="{% url 'search:result' %}" method="get" class="header-search">
+                    <input type="text" name="q" placeholder="検索..." value="{{ request.GET.q|default:'' }}">
+                    <button type="submit">検索</button>
+                </form>
+            </div>
+            <div class="header-right">
+                {% if user.is_authenticated %}
+                    <span class="user-info">
+                        ID: {{ user.employee_id }} / {{ user.last_name }}{{ user.first_name }} / {{ user.department }}
+                    </span>
+                    <a href="{% url 'accounts:logout' %}">ログアウト</a>
+                {% else %}
+                    <a href="{% url 'accounts:signup' %}">サインアップ</a>
+                    <a href="{% url 'accounts:login' %}">ログイン</a>
+                {% endif %}
+            </div>
         </nav>
     </header>
     <main>

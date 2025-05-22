@@ -32,12 +32,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'inventory',
+    'supplies',
     'archive',
     'lending',
-    'permissions',
-    'review',
     'search',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +68,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'equipment_management.wsgi.application'
-AUTH_USER_MODEL = 'permissions.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'  # ← 'permissions.CustomUser' を 'accounts.CustomUser' に変更
 
 # Database
 DATABASES = {

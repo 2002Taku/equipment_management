@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}備品詳細{% endblock %}
+{% block content %}
+<h1>{{ item.name }}</h1>
+{% if item.image %}
+    <img src="{{ item.image.url }}" alt="{{ item.name }}" width="200">
+{% endif %}
+<p>{{ item.description }}</p>
+<p>カテゴリ: {{ item.category }}</p>
+<p>在庫数: {{ item.stock }}</p>
+<a href="{% url 'review:list' item.id %}">レビューを見る</a>
+<a href="{% url 'supplies:edit' item.id %}">編集</a>
+<a href="{% url 'archive:hide' item.id %}">非表示</a>
+<a href="{% url 'lending:borrow' item.id %}">借りる</a>
+<a href="{% url 'lending:return' item.id %}">返却</a>
+{% endblock %}

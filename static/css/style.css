@@ -11,6 +11,44 @@ header {
     padding: 1em 0.5em;
 }
 
+nav.header-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2c3e50;
+    padding: 1em 0.5em;
+}
+
+.header-left, .header-center, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.header-center {
+    flex: 1;
+    justify-content: center;
+}
+
+.header-right {
+    justify-content: flex-end;
+    min-width: 220px;
+}
+
+.user-info {
+    color: #fff;
+    font-size: 0.95em;
+    background: #34495e;
+    border-radius: 4px;
+    padding: 0.3em 0.8em;
+    margin-left: 1em;
+}
+
+form.header-search {
+    display: flex;
+    align-items: center;
+}
+
 nav a {
     color: #fff;
     text-decoration: none;

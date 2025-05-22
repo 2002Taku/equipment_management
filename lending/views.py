@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Lending
-from inventory.models import Equipment, Item
+from supplies.models import Equipment, Item
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from datetime import timedelta, date
