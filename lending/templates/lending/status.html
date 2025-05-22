@@ -2,6 +2,7 @@
 {% block title %}貸出状況{% endblock %}
 {% block content %}
 <h1>{{ item.name }}の貸出状況</h1>
+<!-- 現在貸出中のユーザー一覧テーブル -->
 <table border="1">
     <tr>
         <th>氏名</th>
@@ -10,6 +11,7 @@
     </tr>
     {% for lend in lendings %}
     <tr {% if lend.is_due_soon_flag %}style="background-color:#faa;"{% endif %}>
+        <!-- 返却期限が近い場合は行を赤く表示 -->
         <td>{{ lend.user_name }}</td>
         <td>{{ lend.user_department }}</td>
         <td>{{ lend.return_due_date }}</td>

@@ -4,7 +4,7 @@
 <h1>ログイン</h1>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.as_p }} <!-- Djangoのフォームを自動でパラグラフ形式で表示 -->
     <button type="submit">ログイン</button>
 </form>
 {% endblock %}

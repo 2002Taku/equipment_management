@@ -2,9 +2,11 @@
 {% block title %}借りる確認{% endblock %}
 {% block content %}
 <h1>{{ item.name }}を借りますか？</h1>
+<!-- 貸出申請確認フォーム -->
 <form method="post">
     {% csrf_token %}
     <button type="submit">借りる</button>
 </form>
+<!-- キャンセルで備品詳細に戻る -->
 <a href="{% url 'supplies:detail' item.id %}">キャンセル</a>
 {% endblock %}

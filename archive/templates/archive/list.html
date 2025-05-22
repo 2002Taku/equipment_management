@@ -5,8 +5,10 @@
 <ul>
     {% for archive in archived_supplies %}
         <li>
+            <!-- アーカイブされた備品名と非表示理由を表示 -->
             {{ archive.item.name }}<br>
             非表示理由: {{ archive.archive_reason }}<br>
+            <!-- 復元ボタン（POSTで復元処理） -->
             <form action="{% url 'archive:restore' archive.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit">復元</button>
