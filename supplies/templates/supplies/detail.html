@@ -24,8 +24,10 @@
 </p>
 
 <a href="{% url 'supplies:review_create' item.id %}">レビューを書く</a>
-<a href="{% url 'supplies:edit' item.id %}">編集</a>
-<a href="{% url 'archive:hide' item.id %}">非表示</a><br>
+{% if user.is_authenticated and user.is_admin %}
+    <a href="{% url 'supplies:edit' item.id %}">編集</a>
+    <a href="{% url 'archive:hide' item.id %}">非表示</a><br>
+{% endif %}
 <a href="{% url 'lending:borrow' item.id %}">借りる</a>
 <a href="{% url 'lending:return' item.id %}">返却</a>
 
