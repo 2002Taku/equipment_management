@@ -49,6 +49,7 @@ form.header-search {
     align-items: center;
 }
 
+
 nav a {
     color: #fff;
     text-decoration: none;
@@ -114,6 +115,97 @@ input[type="text"], input[type="password"], select, textarea {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 1em;
+}
+
+/* 検索フォーム内のinput, selectは専用クラスで上書き */
+.search-form .search-input,
+.search-form .search-category {
+    width: auto;
+    margin-bottom: 0;
+    border: none;
+    box-sizing: border-box;
+}
+
+/* 追加・修正: 検索フォーム内のinput,selectを強制的に横並び・高さ統一 */
+.search-form .search-category,
+.search-form .search-input,
+.search-form .search-btn {
+    margin-bottom: 0 !important;
+    width: auto !important;
+    height: 48px;
+    border-radius: 0;
+    box-sizing: border-box;
+}
+
+/* 検索フォームを横並びにする */
+.search-form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: none;
+    margin: 0 auto;
+    gap: 0;
+}
+
+/* カテゴリプルダウン */
+.search-form .search-category {
+    border: none;
+    background: #e5e5e5;
+    color: #333;
+    padding: 0.7em 0em;
+    font-size: 0.8em;
+    min-width: 40px;
+    max-width: 100%;
+    display: inline-block;
+    height: 48px;
+    border-radius: 10px 0 0 10px;
+    outline: none;
+    margin-bottom: 0 !important;
+    width: auto !important;
+    box-sizing: border-box;
+}
+
+/* キーワード入力 */
+.search-form .search-input {
+    flex: 1;
+    border: none;
+    padding: 0.8em 1em;
+    font-size: 1em;
+    outline: none;
+    height: 48px;
+    border-radius: 0;
+    margin-bottom: 0 !important;
+    width: auto !important;
+    box-sizing: border-box;
+}
+
+/* 検索ボタン */
+.search-form .search-btn {
+    background: #eab96b;
+    border: none;
+    width: 60px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 0 10px 10px 0;
+    transition: background 0.2s;
+    margin-bottom: 0 !important;
+    box-sizing: border-box;
+}
+
+.search-form .search-btn:hover {
+    background: #d9a441;
+}
+
+.search-form .search-icon {
+    font-size: 1.5em;
+    color: #333;
 }
 
 ul {

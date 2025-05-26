@@ -8,7 +8,14 @@
 </div>
 <ul>
     {% for review in reviews %}
-        <li>★{{ review.rating }} {{ review.comment }} ({{ review.user }})</li>
+        <li>
+            {{ review.get_rating_display }} {{ review.comment }} ({{ review.user }})
+            {% if user.is_authenticated and user.id == review.user.id %}
+                <form action="{% url 'supplies:review_delete' review.id %}" method="get" style="display:inline;">
+                    <button type="submit">削除</button>
+                </form>
+            {% endif %}
+        </li>
     {% empty %}
         <li>レビューがありません。</li>
     {% endfor %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}レビュー削除確認{% endblock %}
+{% block content %}
+<h2>レビュー削除確認</h2>
+<p>本当にこのレビューを削除しますか？</p>
+<p>
+    {{ review.get_rating_display }} {{ review.comment }} ({{ review.user }})
+</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">削除する</button>
+    <a href="{% url 'supplies:review_list' review.item.id %}">キャンセル</a>
+</form>
+{% endblock %}

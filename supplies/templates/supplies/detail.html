@@ -11,20 +11,37 @@
         <canvas id="ratingChart" width="200" height="160"></canvas>
     </div>
 </div>
-<p>{{ item.description }}</p>
 <p>カテゴリ: {{ item.category }}</p>
+<p>{{ item.description }}</p>
+
+<!-- 平均点の表示を追加 -->
+<p>平均評価: 
+    {% if avg_rating %}
+        {{ avg_rating|floatformat:1 }} / 5.0
+    {% else %}
+        まだ評価がありません
+    {% endif %}
+</p>
 
 <a href="{% url 'supplies:review_create' item.id %}">レビューを書く</a>
 <a href="{% url 'supplies:edit' item.id %}">編集</a>
-<a href="{% url 'archive:hide' item.id %}">非表示</a>
+<a href="{% url 'archive:hide' item.id %}">非表示</a><br>
 <a href="{% url 'lending:borrow' item.id %}">借りる</a>
 <a href="{% url 'lending:return' item.id %}">返却</a>
 
-<p>【総レビュー数: {{ reviews.count }}】</p>
+
+<p>在庫数: {{ item.stock }}</p>
 <!-- レビューの羅列 -->
 <ul>
     {% for review in reviews %}
-        <li>★{{ review.rating }} {{ review.comment }} ({{ review.user }})</li>
+        <li>
+            {{ review.get_rating_display }} {{ review.comment }} ({{ review.user }})
+            {% if user.is_authenticated and user.id == review.user.id %}
+                <form action="{% url 'supplies:review_delete' review.id %}" method="get" style="display:inline;">
+                    <button type="submit">削除</button>
+                </form>
+            {% endif %}
+        </li>
     {% empty %}
         <li>レビューがありません。</li>
     {% endfor %}

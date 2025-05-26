@@ -15,15 +15,23 @@
                 <a href="{% url 'archive:list' %}">アーカイブ</a>
             </div>
             <div class="header-center">
-                <form action="{% url 'search:result' %}" method="get" class="header-search">
-                    <input type="text" name="q" placeholder="検索..." value="{{ request.GET.q|default:'' }}">
-                    {% comment %} <button type="submit">検索</button> {% endcomment %}
+                <form action="{% url 'search:result' %}" method="get" class="search-form">
+                    <select name="category" class="search-category">
+                        <option value="">すべて</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.name }}" {% if request.GET.category == cat.name %}selected{% endif %}>{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" name="q" class="search-input" placeholder="キーワード検索" value="{{ request.GET.q }}">
+                    <button type="submit" class="search-btn">
+                        <span class="search-icon">&#128269;</span>
+                    </button>
                 </form>
             </div>
             <div class="header-right">
                 {% if user.is_authenticated %}
                     <span class="user-info">
-                        ID: {{ user.employee_id }} / {{ user.last_name }}{{ user.first_name }} / {{ user.department }}
+                        社員番号: {{ user.employee_id }} / {{ user.last_name }}{{ user.first_name }} / {{ user.department }}
                     </span>
                     <a href="{% url 'accounts:logout' %}">ログアウト</a>
                 {% else %}

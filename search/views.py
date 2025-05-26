@@ -1,25 +1,27 @@
 from django.shortcuts import render
 from supplies.models import Item, Category
+from django.db import models
 
 def search_result(request):
-    q = request.GET.get('q', '')
-    category_id = request.GET.get('category')
-    items = Item.objects.filter(is_active=True)
-    if q:
+    query = request.GET.get('q', '')         # キーワード
+    category = request.GET.get('category', '')  # カテゴリ
+
+    items = Item.objects.filter(is_active=True)  # まず有効な備品のみ
+
+    if query:
+        # 名前または説明文にキーワードが含まれるもの
         items = items.filter(
-            name__icontains=q
-        ) | items.filter(
-            description__icontains=q
-        ) | items.filter(
-            tags__name__icontains=q
+            models.Q(name__icontains=query) | models.Q(description__icontains=query)
         )
-    if category_id:
-        items = items.filter(category_id=category_id)
-    items = items.distinct()
-    context = {
-        'results': items,
-        'categories': Category.objects.all(),
-        'q': q,
-        'category_id': category_id,
-    }
-    return render(request, 'search/result.html', context)
+    if category:
+        # カテゴリでさらに絞り込み（AND条件になる）
+        items = items.filter(category__name=category)
+
+    categories = Category.objects.all()  # 追加
+
+    return render(request, 'search/result.html', {
+        'items': items,
+        'query': query,
+        'category': category,
+        'categories': categories,  # 追加
+    })

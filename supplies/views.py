@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Avg, Q
 from django.contrib.auth.decorators import login_required
-from django.views import View  # ← これを追加
+from django.views import View
 from .models import Item, Category, Tag, Review
 from .forms import ItemForm, ReviewForm
 
@@ -35,7 +35,7 @@ def item_detail(request, item_id):
         'item': item,
         'reviews': reviews,
         'avg_rating': avg_rating,
-        'rating_counts': rating_counts,  # ← 追加
+        'rating_counts': rating_counts,
     }
     return render(request, 'supplies/detail.html', context)
 
@@ -67,19 +67,10 @@ def item_delete(request, item_id):
     return redirect('supplies:list')
 
 def review_list(request, item_id):
-    item = get_object_or_404(Item, id=item_id)
-    reviews = Review.objects.filter(item=item).order_by('-created_at')
-    avg_rating = reviews.aggregate(Avg('rating'))['rating__avg']
-    review_count = reviews.count()
-    rating_counts = [reviews.filter(rating=i).count() for i in range(1, 6)]
-    context = {
-        'item': item,
-        'reviews': reviews,
-        'avg_rating': f"{avg_rating:.1f}" if avg_rating else "0.0",
-        'review_count': review_count,
-        'rating_counts': rating_counts,
-    }
-    return render(request, 'supplies/review_list.html', context)
+    """
+    現在review_list.htmlは使用していないため、item_detailへリダイレクトする
+    """
+    return redirect('supplies:detail', item_id=item_id)
 
 @login_required
 def review_create(request, item_id):
@@ -101,3 +92,14 @@ class ReviewDeleteView(View):
         review = Review.objects.get(pk=pk)
         review.delete()
         return redirect('supplies:detail', item_id=review.item.id)
+
+@login_required
+def review_delete_confirm(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    # 本人以外は削除不可
+    if review.user != request.user:
+        return redirect('supplies:detail', item_id=review.item.id)
+    if request.method == 'POST':
+        review.delete()
+        return redirect('supplies:detail', item_id=review.item.id)
+    return render(request, 'supplies/review_delete_confirm.html', {'review': review})

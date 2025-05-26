@@ -10,11 +10,11 @@ class CustomUser(AbstractUser):
         # 管理者判定（例：社員番号が1で始まる場合）
         return self.employee_id.startswith('1')
 
-class Permission(models.Model):
-    # 権限管理モデル
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='permissions')
-    permission_level = models.CharField(max_length=50)
-    created_at = models.DateTimeField(auto_now_add=True)
+# class Permission(models.Model):
+#     # 権限管理モデル
+#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='permissions')
+#     permission_level = models.CharField(max_length=50)
+#     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.user.username} - {self.permission_level}"
+#     def __str__(self):
+#         return f"{self.user.username} - {self.permission_level}"

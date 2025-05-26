@@ -6,10 +6,11 @@
     <div style="flex:3;">
         {% for item in items %}
             <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+                <h2>{{ item.name }}</h2>
                 {% if item.image %}
                     <img src="{{ item.image.url }}" alt="{{ item.name }}" width="100">
                 {% endif %}
-                <h2>{{ item.name }}</h2>
+                
                 <p>
                     平均評価:
                     {% if item.avg_rating %}
@@ -18,10 +19,11 @@
                         －
                     {% endif %}
                 </p>
-                <p>{{ item.description }}</p>
-                <a href="{% url 'supplies:detail' item.id %}">詳細</a>
-                <p>在庫数: {{ item.stock }}</p>
-                <a href="{% url 'lending:status' item.id %}">貸出状況</a>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <a href="{% url 'supplies:detail' item.id %}">詳細</a>
+                    <p>在庫数: {{ item.stock }}</p>
+                    <a href="{% url 'lending:status' item.id %}">貸出状況</a>
+                </div>
             </div>
         {% empty %}
             <p>備品がありません。</p>
