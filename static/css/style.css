@@ -246,3 +246,21 @@ img {
     padding: 0.5em 1em;
     z-index: 2;
 }
+
+/* 例: style.css に追加 */
+.btn {
+    display: inline-block;
+    padding: 0.5em 1.2em;
+    margin: 0.2em 0.2em 0.2em 0;
+    background: #3498db;
+    color: #fff !important;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn:hover {
+    background: #217dbb;
+}

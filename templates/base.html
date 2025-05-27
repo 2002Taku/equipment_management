@@ -33,7 +33,7 @@
             <div class="header-right">
                 {% if user.is_authenticated %}
                     <span class="user-info">
-                        社員番号: {{ user.employee_id }} / {{ user.last_name }}{{ user.first_name }} / {{ user.department }}
+                        社員番号: {{ user.username }} / {{ user.last_name }}{{ user.first_name }} / {{ user.department }}
                     </span>
                     <a href="{% url 'accounts:logout' %}">ログアウト</a>
                 {% else %}
